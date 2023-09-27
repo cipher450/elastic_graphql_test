@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>Elasticsearch query example</title>
+  </head>
+  <body>
+    <h1>Elasticsearch query example</h1>
+    <input type="text" id="searchInput" placeholder="Search..." />
+    <button onclick="search()">Search</button>
+    <button onclick="getAll()">Get All</button>
+    <ul id="searchResults"></ul>
+
+    <script>
+      function search() {
+        const searchInput = document.getElementById("searchInput").value;
+
+        fetch("/api/elMatch", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: searchInput,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const searchResults = document.getElementById("searchResults");
+            searchResults.innerHTML = "";
+
+            data.forEach((result) => {
+              const listItem = document.createElement("li");
+              listItem.textContent = result._source.title;
+              searchResults.appendChild(listItem);
+            });
+          });
+      }
+      function getAll(){
+        fetch("/api/elAll" )
+          .then((response) => response.json())
+          .then((data) => {
+            const searchResults = document.getElementById("searchResults");
+            searchResults.innerHTML = "";
+
+            data.forEach((result) => {
+              const listItem = document.createElement("li");
+              listItem.textContent = result._source.title;
+              searchResults.appendChild(listItem);
+            });
+          });
+      }
+    
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+type Product {
+  product_id: ID!
+  product_name: String!
+  description: String!
+  price: Float!
+  quantity: Int!
+  is_available: Boolean!
+  date_added: String
+}
+
+input ProductInput {
+  product_name: String!
+  description: String!
+  price: Float!
+  quantity: Int!
+  is_available: Boolean!
+  date_added: String
+}
+
+type Query {
+  getProductById(product_id: ID!): Product
+  getProductByName(product_name: String!): [Product]
+  getAllProducts: [Product]
+  filtreProducts(
+    searchTerm: String
+    minPrice: Float
+    maxPrice: Float
+    minQuantity: Int
+    maxQuantity: Int
+    isAvailable: Boolean
+    page: Int
+    pageSize: Int
+  ): [Product]
+}
+
+type Mutation {
+  addProduct(productInput: ProductInput!): Product
+  updateProduct(product_id: ID!, productInput: ProductInput!): Product
+  deleteProduct(product_id: ID!): Product
+}
